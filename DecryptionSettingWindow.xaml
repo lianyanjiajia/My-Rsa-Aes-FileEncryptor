@@ -1,0 +1,15 @@
+﻿<Window x:Class="FileEncryptor.DecryptionSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="解密设置" Height="353" Width="525" ResizeMode="NoResize">
+    <Grid Margin="0,0,4,0">
+        <TextBox x:Name="tb_descryptKey" Text="{Binding Path=Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="171" Margin="13,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="484"/>
+        <Label Content="Key:" HorizontalAlignment="Left" Margin="13,69,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.5,0.769"/>
+        <TextBox x:Name="tb_manifestPath" Text="{Binding Path=ManifestFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="13,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="446"/>
+        <Button x:Name="bt_selManifest" Content="..." HorizontalAlignment="Left" Margin="466,45,0,0" VerticalAlignment="Top" Width="31" Height="23" Click="bt_selManifest_Click" RenderTransformOrigin="0.742,-0.435"/>
+        <Label Content="Manifest文件路径:" HorizontalAlignment="Left" Margin="13,17,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="bt_importDescryptKey" Content="导入" HorizontalAlignment="Left" Height="26" Margin="221,275,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-0.877,0.645" Click="bt_importDescryptKey_Click"/>
+        <Button x:Name="bt_OK" Content="确认" HorizontalAlignment="Left" Margin="321,275,0,0" VerticalAlignment="Top" Width="75" Height="26" IsDefault="True" Click="bt_OK_Click"/>
+        <Button Content="取消" HorizontalAlignment="Left" Margin="422,275,0,0" VerticalAlignment="Top" Width="75" Height="26" IsCancel="True"/>
+    </Grid>
+</Window>

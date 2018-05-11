@@ -1,0 +1,33 @@
+﻿<Window x:Class="FileEncryptor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="文件加密" Height="358" Width="525" BorderThickness="0" ResizeMode="NoResize">
+    <Grid>
+        <Grid x:Name="grid_encrypt" Margin="10,27,10,10">
+            <TextBox x:Name="tb_plainFilePath" HorizontalAlignment="Left" Height="28" Margin="10,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="443"/>
+            <Button x:Name="bt_selPlain" Content="..." HorizontalAlignment="Left" Margin="458,40,0,0" VerticalAlignment="Top" Width="29" Height="28" Click="bt_selPlain_Click"/>
+            <Label Content="选择加密文件:" HorizontalAlignment="Left" Height="27" Margin="10,8,0,0" VerticalAlignment="Top" Width="164" FontWeight="Bold"/>
+            <Button x:Name="bt_setting" Content="设置" HorizontalAlignment="Left" Height="29" Margin="413,247,0,0" VerticalAlignment="Top" Width="74" Click="bt_setting_Click"/>
+            <Button Content="加密" HorizontalAlignment="Left" Height="29" Margin="314,247,0,0" VerticalAlignment="Top" Width="74" Click="bt_encrypt_Click" RenderTransformOrigin="1.932,0.69"/>
+            <TextBox x:Name="tb_output" HorizontalAlignment="Left" Height="145" Margin="10,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="477" ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="tb_output_TextChanged" Text=" " />
+            <Label Content="输出:" HorizontalAlignment="Left" Height="34" Margin="10,68,0,0" VerticalAlignment="Top" Width="76" FontWeight="Bold"/>
+        </Grid>
+        <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Width="517" BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <MenuItem Header="文件">
+                <MenuItem x:Name="mi_switch" Header="切换" Click="mi_switch_Click"/>
+            </MenuItem>
+            <MenuItem Header="工具">
+                <MenuItem x:Name="mi_genKeyPair" Header="生成秘钥对" Click="mi_genKeyPair_Click"/>
+            </MenuItem>
+        </Menu>
+        <Grid x:Name="grid_decrypt" Margin="10,27,10,10" Visibility="Collapsed">
+            <TextBox x:Name="tb_encryptedFilePath" HorizontalAlignment="Left" Height="28" Margin="10,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="443"/>
+            <Label Content="选择解密文件:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="135" FontWeight="Bold"/>
+            <Button x:Name="bt_selEncrypted" Content="..." HorizontalAlignment="Left" Margin="458,40,0,0" VerticalAlignment="Top" Width="29" Height="28" Click="bt_selEncrypted_Click"/>
+            <Label Content="输出:" HorizontalAlignment="Left" Height="34" Margin="10,68,0,0" VerticalAlignment="Top" Width="76" FontWeight="Bold"/>
+            <TextBox x:Name="tb_outputDecrypt" HorizontalAlignment="Left" Height="145" Margin="10,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="477" ScrollViewer.VerticalScrollBarVisibility="Auto" Text=" " TextChanged="tb_outputDecrypt_TextChanged" />
+            <Button x:Name="bt_decrypt" HorizontalAlignment="Left" Height="29" Margin="314,247,0,0" VerticalAlignment="Top" Width="74" RenderTransformOrigin="1.932,0.69" Content="解密" Click="bt_decrypt_Click"/>
+            <Button x:Name="bt_settingDecrypt" Content="设置" HorizontalAlignment="Left" Height="29" Margin="413,247,0,0" VerticalAlignment="Top" Width="74" Click="bt_settingDecrypt_Click"/>
+        </Grid>
+    </Grid>
+</Window>

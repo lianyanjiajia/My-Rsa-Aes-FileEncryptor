@@ -1,0 +1,17 @@
+﻿<Window x:Class="FileEncryptor.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="设置" Height="282" Width="447" ResizeMode="NoResize">
+    <Grid Margin="0,0,4,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox HorizontalAlignment="Left" Height="154" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" Text="{Binding Path=PublicKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="公钥:" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" Height="26" Width="66"/>
+        <Button x:Name="bt_importPublicKey" Content="从xml导入公钥" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top" Width="175" RenderTransformOrigin="0.76,0" Height="25" Click="bt_importPublicKey_Click"/>
+        <Button x:Name="bt_OK" Content="确认" HorizontalAlignment="Left" Height="25" Margin="240,209,0,0" VerticalAlignment="Top" Width="70" IsDefault="True" Click="bt_OK_Click"/>
+        <Button x:Name="bt_Cancel" Content="取消" HorizontalAlignment="Left" Margin="349,209,0,0" VerticalAlignment="Top" Width="69" Height="25" IsCancel="True" RenderTransformOrigin="-1.827,0.4"/>
+
+    </Grid>
+</Window>
