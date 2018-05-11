@@ -25,7 +25,7 @@ namespace FileEncryptor
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = ".*";
             ofd.Filter = FileEncryptor.Properties.Resources.All_File_Type;
-            ofd.Title = FileEncryptor.Properties.Resources.DialogTitle_SelectPlain;
+            ofd.Title = "请选择加密文件";
             Nullable<bool> result = ofd.ShowDialog();
             if (result == true)
             {
@@ -107,7 +107,7 @@ namespace FileEncryptor
         private void mi_genKeyPair_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
-            fbd.Description = FileEncryptor.Properties.Resources.DialogTitle_CreateKey;
+            fbd.Description = "选择生成密钥对文件夹";
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string publicKeyPath = System.IO.Path.Combine(fbd.SelectedPath, "publicKey.xml");
@@ -155,7 +155,7 @@ namespace FileEncryptor
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = ".*";
             ofd.Filter = FileEncryptor.Properties.Resources.All_File_Type;
-            ofd.Title = FileEncryptor.Properties.Resources.DialogTitle_SelectPlain;
+            ofd.Title = "请选择解密文件";
             Nullable<bool> result = ofd.ShowDialog();
             if (result == true)
             {

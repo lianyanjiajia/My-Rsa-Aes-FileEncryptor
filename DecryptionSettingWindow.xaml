@@ -4,7 +4,7 @@
         Title="解密设置" Height="353" Width="525" ResizeMode="NoResize">
     <Grid Margin="0,0,4,0">
         <TextBox x:Name="tb_descryptKey" Text="{Binding Path=Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="171" Margin="13,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="484"/>
-        <Label Content="Key:" HorizontalAlignment="Left" Margin="13,69,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.5,0.769"/>
+        <Label Content="私钥:" HorizontalAlignment="Left" Margin="13,69,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.5,0.769"/>
         <TextBox x:Name="tb_manifestPath" Text="{Binding Path=ManifestFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="13,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="446"/>
         <Button x:Name="bt_selManifest" Content="..." HorizontalAlignment="Left" Margin="466,45,0,0" VerticalAlignment="Top" Width="31" Height="23" Click="bt_selManifest_Click" RenderTransformOrigin="0.742,-0.435"/>
         <Label Content="Manifest文件路径:" HorizontalAlignment="Left" Margin="13,17,0,0" VerticalAlignment="Top"/>
