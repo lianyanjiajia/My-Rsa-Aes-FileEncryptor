@@ -57,8 +57,7 @@ namespace FileEncryptor
             string encryptedFilePath = MakePath(plainFilePath, ".encrypted");
             string manifestFilePath = MakePath(plainFilePath, ".manifest.xml");
 
-            this.tb_output.Text = Properties.Resources.Out_msg_start_encryption;
-
+            this.tb_output.Text = "加密中...";
             var t = Task.Factory.StartNew(() =>
             {
                 freeEvent.Reset();
@@ -68,7 +67,8 @@ namespace FileEncryptor
                     this.publicKey);
 
                 freeEvent.Set();
-                this.UpdateOutput(this.tb_output, Properties.Resources.Out_msg_encrypt_success + "\r\n" + s, true);
+                this.UpdateOutput(this.tb_output, "加密完成，密钥信息如下" + "\r\n" + s, true);
+
             });
         }
 
@@ -173,21 +173,22 @@ namespace FileEncryptor
 
             string rsaKey = this.privateKey;
             string encryptedFile = this.tb_encryptedFilePath.Text;
-            string plainFile = MakePath(encryptedFile, ".decrypted");
             string manifestFile = this.manifestFilePath;
             XDocument doc = XDocument.Load(manifestFile);
+            string fileExtention = doc.Root.XPathSelectElement("./FileExtention").Value;
+            string plainFile = MakePath(encryptedFile, fileExtention);
             XElement aesKeyElement = doc.Root.XPathSelectElement("./DataEncryption/AESEncryptedKeyValue/Key");
             byte[] aesKey = Encryptor.Encipher.RSADescryptBytes(Convert.FromBase64String(aesKeyElement.Value), rsaKey);
             XElement aesIvElement = doc.Root.XPathSelectElement("./DataEncryption/AESEncryptedKeyValue/IV");
             byte[] aesIv = Encryptor.Encipher.RSADescryptBytes(Convert.FromBase64String(aesIvElement.Value), rsaKey);
 
-            this.tb_outputDecrypt.Text = Properties.Resources.Out_msg_start_decryption;
+            this.tb_outputDecrypt.Text = "解密中...";
             var t = Task.Factory.StartNew(() =>
             {
                 freeEvent.Reset();
                 Encryptor.Encipher.DecryptFile(plainFile, encryptedFile, aesKey, aesIv);
                 freeEvent.Set();
-                this.UpdateOutput(this.tb_outputDecrypt, string.Format(Properties.Resources.Out_msg_decryption_success, plainFile), true);
+                this.UpdateOutput(this.tb_outputDecrypt, string.Format("解密完成，文件保存在"+ plainFile), true);
             });
         }
 
