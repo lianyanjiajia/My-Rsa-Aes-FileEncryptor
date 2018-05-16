@@ -176,7 +176,7 @@ namespace FileEncryptor
             string manifestFile = this.manifestFilePath;
             XDocument doc = XDocument.Load(manifestFile);
             string fileExtention = doc.Root.XPathSelectElement("./FileExtention").Value;
-            string plainFile = MakePath(encryptedFile, fileExtention);
+            string plainFile = MakePath(encryptedFile, "解密后"+fileExtention);
             XElement aesKeyElement = doc.Root.XPathSelectElement("./DataEncryption/AESEncryptedKeyValue/Key");
             byte[] aesKey = Encryptor.Encipher.RSADescryptBytes(Convert.FromBase64String(aesKeyElement.Value), rsaKey);
             XElement aesIvElement = doc.Root.XPathSelectElement("./DataEncryption/AESEncryptedKeyValue/IV");
