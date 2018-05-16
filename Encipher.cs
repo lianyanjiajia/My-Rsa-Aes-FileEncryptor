@@ -36,32 +36,29 @@ namespace Encryptor
             string manifestFilePath, 
             string rsaKey)
         {
-            byte[] signatureKey = GenerateRandom(64);
+
             byte[] encryptionKey = GenerateRandom(16);
             byte[] encryptionIV = GenerateRandom(16);
 
             EncryptFile(plainFilePath, encryptedFilePath, encryptionKey, encryptionIV);
 
-            byte[] signature = CalculateSignature(encryptedFilePath, signatureKey);
 
             string fileExtention = Path.GetExtension(plainFilePath);
-            CreateManifest(signature, signatureKey, encryptionKey, encryptionIV, rsaKey, manifestFilePath, fileExtention);
+            CreateManifest( encryptionKey, encryptionIV, rsaKey, manifestFilePath, fileExtention);
 
-            return CreateEncryptionInfoXml(signatureKey, encryptionKey, encryptionIV);
+            return CreateEncryptionInfoXml(encryptionKey, encryptionIV);
         }
 
         /// <summary>
         /// 创建加密信息
         /// </summary>
-        /// <param name="signatureKey">签名密钥</param>
         /// <param name="encryptionKey">AES秘钥</param>
         /// <param name="encryptionIV">AES密钥向量</param>
         /// <returns>包含加密信息的字符串</returns>
-        private static string CreateEncryptionInfoXml(byte[] signatureKey, byte[] encryptionKey, byte[] encryptionIV)
+        private static string CreateEncryptionInfoXml(byte[] encryptionKey, byte[] encryptionIV)
         {
             string message = "加密信息："+ Environment.NewLine+ "AES密钥信息：" + Environment.NewLine + "密钥：" +
-                Convert.ToBase64String(encryptionKey)+ Environment.NewLine+ "向量IV:"+ Convert.ToBase64String(encryptionIV)+
-                Environment.NewLine + "HMACSHA签名密钥：" + Convert.ToBase64String(signatureKey);
+                Convert.ToBase64String(encryptionKey)+ Environment.NewLine+ "向量IV:"+ Convert.ToBase64String(encryptionIV);
             return message;
         }
 
@@ -176,39 +173,15 @@ namespace Encryptor
 
             return decrypted;
         }
-
-        /// <summary>
-        /// 计算文件签名
-        /// </summary>
-        /// <param name="filePath">要计算签名的完整路径文件</param>
-        /// <param name="key">计算签名秘钥</param>
-        /// <returns>签名数组</returns>
-        private static byte[] CalculateSignature(string filePath, byte[] key)
-        {
-            byte[] sig = null;
-            using (HMACSHA256 sha = new HMACSHA256(key))
-            {
-                using (FileStream f = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    sig = sha.ComputeHash(f);
-                }
-            }
-
-            return sig;
-        }
-
         /// <summary>
         ///创建manifest文件
         /// </summary>
-        /// <param name="signature">数据签名</param>
-        /// <param name="signatureKey">数据签名秘钥</param>
         /// <param name="encryptionKey">AES加密秘钥</param>
         /// <param name="encryptionIv">AES加密向量</param>
         /// <param name="rsaKey">RSA公钥</param>
         /// <param name="manifestFilePath">输出manifest文件路径</param>
         ///  /// <param name="fileExtention">加密前文件扩展名</param>
-        private static void CreateManifest(byte[] signature, 
-            byte[] signatureKey, 
+        private static void CreateManifest(
             byte[] encryptionKey, 
             byte[] encryptionIv, 
             string rsaKey,
@@ -225,17 +198,11 @@ namespace Encryptor
                 "<IV/>" +
                 "</AESEncryptedKeyValue>" +
                 "</DataEncryption>" + 
-                "<DataSignature algorithm='HMACSHA256'>" + 
-                "<Value />" +
-                "<EncryptedKey />" + 
-                "</DataSignature>" + 
                 "</DataInfo>";
 
             XDocument doc = XDocument.Parse(template);
             doc.Descendants("DataEncryption").Single().Descendants("AESEncryptedKeyValue").Single().Descendants("Key").Single().Value = System.Convert.ToBase64String(RSAEncryptBytes(encryptionKey, rsaKey));
             doc.Descendants("DataEncryption").Single().Descendants("AESEncryptedKeyValue").Single().Descendants("IV").Single().Value = System.Convert.ToBase64String(RSAEncryptBytes(encryptionIv, rsaKey));
-            doc.Descendants("DataSignature").Single().Descendants("Value").Single().Value = System.Convert.ToBase64String(signature);
-            doc.Descendants("DataSignature").Single().Descendants("EncryptedKey").Single().Value = System.Convert.ToBase64String(RSAEncryptBytes(signatureKey, rsaKey));
             doc.Descendants("FileExtention").Single().Value = fileExtention;
 
             doc.Save(manifestFilePath);
