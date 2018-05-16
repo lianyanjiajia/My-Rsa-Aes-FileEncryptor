@@ -18,7 +18,6 @@ namespace FileEncryptor
 
             this.publicKey = null;
 
-            this.freeEvent = new EventWaitHandle(true, EventResetMode.ManualReset);
         }
         private void bt_selPlain_Click(object sender, RoutedEventArgs e)
         {
@@ -41,11 +40,6 @@ namespace FileEncryptor
 
         private void bt_encrypt_Click(object sender, RoutedEventArgs e)
         {
-            if (!this.freeEvent.WaitOne(0))
-            {
-                MessageBox.Show(Properties.Resources.Backend_Busy);
-                return;
-            }
 
             if (string.IsNullOrEmpty(publicKey))
             {
@@ -60,13 +54,10 @@ namespace FileEncryptor
             this.tb_output.Text = "加密中...";
             var t = Task.Factory.StartNew(() =>
             {
-                freeEvent.Reset();
                 string s = Encryptor.Encipher.Encrypt(plainFilePath,
                     encryptedFilePath,
                     manifestFilePath,
                     this.publicKey);
-
-                freeEvent.Set();
                 this.UpdateOutput(this.tb_output, "加密完成，密钥信息如下" + "\r\n" + s, true);
 
             });
@@ -132,11 +123,6 @@ namespace FileEncryptor
 
         private void mi_switch_Click(object sender, RoutedEventArgs e)
         {
-            if (!this.freeEvent.WaitOne(0))
-            {
-                MessageBox.Show(Properties.Resources.Backend_Busy);
-                return;
-            }
 
             if (this.grid_encrypt.Visibility == System.Windows.Visibility.Visible)
             {
@@ -165,11 +151,6 @@ namespace FileEncryptor
 
         private void bt_decrypt_Click(object sender, RoutedEventArgs e)
         {
-            if (!this.freeEvent.WaitOne(0))
-            {
-                MessageBox.Show(Properties.Resources.Backend_Busy);
-                return;
-            }
 
             string rsaKey = this.privateKey;
             string encryptedFile = this.tb_encryptedFilePath.Text;
@@ -185,9 +166,7 @@ namespace FileEncryptor
             this.tb_outputDecrypt.Text = "解密中...";
             var t = Task.Factory.StartNew(() =>
             {
-                freeEvent.Reset();
                 Encryptor.Encipher.DecryptFile(plainFile, encryptedFile, aesKey, aesIv);
-                freeEvent.Set();
                 this.UpdateOutput(this.tb_outputDecrypt, string.Format("解密完成，文件保存在"+ plainFile), true);
             });
         }
